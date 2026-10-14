@@ -93,8 +93,8 @@ class Citizen:
         async with drekbase.get_cursor() as c:
             await c.execute(f"""
                 INSERT INTO eco_users (user_id, {column})
-                VALUES (%s, %s) AS n
-                ON DUPLICATE KEY UPDATE {column} = eco_users.{column} + n.{column}
+                VALUES (%s, %s)
+                ON DUPLICATE KEY UPDATE {column} = eco_users.{column} + VALUES({column})
             """, (self.id, amount))
             await self._refresh(c)
 
@@ -134,8 +134,8 @@ class Citizen:
         async with drekbase.get_cursor() as c:
             await c.execute(f"""
                 INSERT INTO eco_users (user_id, {column})
-                VALUES (%s, %s) AS n
-                ON DUPLICATE KEY UPDATE {column} = n.{column}
+                VALUES (%s, %s)
+                ON DUPLICATE KEY UPDATE {column} = VALUES({column})
             """, (self.id, amount))
             await self._refresh(c)
 

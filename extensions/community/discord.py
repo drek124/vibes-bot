@@ -27,8 +27,8 @@ class community_discord(Extension):
         async with drekbase.get_cursor() as c:
             await c.execute("""
                 INSERT INTO communities (user_id, discord) 
-                VALUES (%s, %s) AS n
-                ON DUPLICATE KEY UPDATE discord = n.discord;
+                VALUES (%s, %s)
+                ON DUPLICATE KEY UPDATE discord = VALUES(discord);
 
                 """, (ctx.stream.channel.id, link))
 
