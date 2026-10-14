@@ -69,9 +69,12 @@ async def main():
     await drekbase.load_pool()
     # Loading extensions
     ext_folder = Path('extensions')
-    for file in [item for item in ext_folder.iterdir() if item.is_file() and item.name.endswith('.py')]:
-        await client.load_extension(f"{ext_folder.name}.{file.name[:-3]}")
-        logging.info(f"Module {file.name[:-3]} has been loaded")
+    for folder in [item for item in ext_folder.iterdir() if not item.is_file()] + [ext_folder]:
+        for file in [item for item in folder.iterdir() if item.is_file() and item.name.endswith('.py') and not item.name.startswith('_')]:
+            await client.load_extension(f"{ext_folder.name}.{folder.name}.{file.name[:-3]}")
+            logging.info(f"Extension {folder.name}.{file.name[:-3]} has been loaded")
+        
+
         
     await client.start()
 
@@ -81,7 +84,7 @@ async def main():
 @client.event()
 async def on_connect():
     print(f"--- Logged in as {client.user} ---")
-    streamers = [(s, s.channel) for s in await client.fetch_streams()]
+
     logging.info('Syncing app commands...')
     synced = await client.sync_commands()
     logging.info(f'Synced {len(synced)} app commands')
@@ -170,7 +173,7 @@ async def on_donation(donation: vibes.Donation):
 async def on_message(message: vibes.Message):
     if message.content.startswith(client.prefix):
         await client.process_commands(message)
-        
+
     print(f"""[{message.stream.title}] {message.author}: "{message.content}" """)
 
 @client.event()
