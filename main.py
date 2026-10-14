@@ -10,7 +10,7 @@ import vibes
 from pathlib import Path
 from vibes import Client, commands
 from vibes.commands import (Context, CommandNotFound, BadArgument, MissingArguments, CommandError, NoPermission, OnCooldown, Cooldown)
-from data import helper, drekbase, config
+from data import helper, drekbase
 
 for d in ['logs', 'extensions']:
     if not os.path.exists(d):
@@ -43,8 +43,6 @@ for logger_name in ("matplotlib", "PIL", "httpx", "httpcore", "asyncio", "websoc
 
 
 
-TOKEN: str = os.getenv('VIBES_BOT_TOKEN')
-client = Client(token=helper.getenv('VIBES_BOT_TOKEN'), prefix=config.get('command_prefix'))
 
 
 # Building
@@ -73,6 +71,12 @@ if os.path.exists('.drek124'):
 else: # If not the repo contributor:
     if not os.path.exists('config.json') and os.path.exists('config-sample.json'):
         Path('config-sample.json').rename('config.json')
+
+from data import config
+
+
+TOKEN: str = os.getenv('VIBES_BOT_TOKEN')
+client = Client(token=helper.getenv('VIBES_BOT_TOKEN'), prefix=config.get('command_prefix'))
 
 
 async def main():
