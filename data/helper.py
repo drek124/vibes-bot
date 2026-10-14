@@ -6,6 +6,8 @@ load_dotenv()
 
 class bot:
     prefix = os.getenv('BOT_PREFIX')
+    _version = 1
+    version = '1.0'
 
     
 

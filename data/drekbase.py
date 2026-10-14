@@ -36,6 +36,32 @@ async def get_cursor(*, dictcursor: bool = False):
         async with conn.cursor(*cursor_cls) as cursor:
             yield cursor
 
+
+async def migrate(migrations: list[tuple[str, str]]):
+    """Apply any migrations that haven't run yet, in order. Each runs once per database.
+
+    `migrations` is a list of (name, sql). Never edit or rename one that has
+    already run - add a new one at the end instead.
+    """
+    async with get_cursor() as c:
+        await c.execute("""
+            CREATE TABLE IF NOT EXISTS schema_migrations (
+            name VARCHAR(100) NOT NULL,
+            applied_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (name)
+            )
+        """)
+        await c.execute("SELECT name FROM schema_migrations")
+        applied = {row[0] for row in await c.fetchall()}
+
+        for name, sql in migrations:
+            if name in applied:
+                continue
+            logging.info(f"Applying migration {name}...")
+            await c.execute(sql)
+            await c.execute("INSERT INTO schema_migrations (name) VALUES (%s)", (name,))
+
+
 class _f:
     def __init__(self):
         pass
