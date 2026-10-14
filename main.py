@@ -169,7 +169,7 @@ async def on_command_error(e: CommandError):
             await ctx.message.reply(f"No permission! You must have {ctx.command.required_role.name.capitalize()} role.")
 
         elif isinstance(e, OnCooldown):
-            await ctx.message.reply(f"You can only use this command {e.cooldown.max_uses} times per {e.cooldown.period}s. {round(e.available_after, 2)}s left.")
+            await ctx.message.reply(f"You can only do this {e.cooldown.max_uses} times per {e.cooldown.period}s. {round(e.available_after, 2)}s left.")
         else:
             print("".join(traceback.format_exception(type(e), e, e.__traceback__)))
     else:

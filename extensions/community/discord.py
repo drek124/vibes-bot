@@ -7,13 +7,13 @@ from data import drekbase
 
 DISCORD_INVITE_LINK = 'https://discord.gg/'
 
-class community(Extension):
+class community_discord(Extension):
 
     def __init__(self, client):
         self.client: vibes.Client = client
 
     @commands.app_command(name='discord',
-        cooldown=commands.Cooldown(60, 2, commands.Cooldown.USER),
+        cooldown=commands.Cooldown(40, 2, commands.Cooldown.USER),
         role=vibes.Role.STREAMER
     )
     @commands.describe(
@@ -48,13 +48,17 @@ class community(Extension):
         await ctx.message.reply(link)
 
 
-async def setup(client):
-    async with drekbase.get_cursor() as c:
-        await c.execute("""
+MIGRATIONS = [
+    ("community_001_create_communities", """
         CREATE TABLE IF NOT EXISTS communities (
         user_id VARCHAR(50) NOT NULL,
         discord VARCHAR(150) DEFAULT NULL,
         PRIMARY KEY (user_id)
         )
-    """)
-    await client.add_ext(community(client))
+    """),
+]
+
+
+async def setup(client):
+    await drekbase.migrate(MIGRATIONS)
+    await client.add_ext(community_discord(client))
