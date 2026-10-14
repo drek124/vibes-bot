@@ -5,7 +5,6 @@ import logging
 import asyncio
 import traceback
 import sys
-import random
 import vibes
 from pathlib import Path
 from vibes import Client, commands
@@ -123,7 +122,7 @@ async def main():
 
 @client.event()
 async def on_connect():
-    print(f"--- Logged in as {client.user} ---")
+    logging.info(f"--- Logged in as {client.user} ---")
 
     logging.info('Syncing app commands...')
     synced = await client.sync_commands()
@@ -156,27 +155,27 @@ async def streamtime(ctx: Context):
 
 @client.event()
 async def on_stream_online(stream: vibes.Stream):
-    print(f"{stream.channel} just went live! {stream.title}")
+    logging.debug(f"{stream.channel} just went live! {stream.title}")
 
 @client.event()
 async def on_stream_offline(stream: vibes.Stream):
-    print(f"{stream.channel} stopped streaming after {round(stream.duration/60, 1)}mins! {stream.title}")
+    logging.debug(f"{stream.channel} stopped streaming after {round(stream.duration/60, 1)}mins! {stream.title}")
  
 @client.event()
 async def on_viewer_join(stream: vibes.Stream, viewer: vibes.User):
-    print(f"{viewer} is now watching {stream.title}")
+    logging.debug(f"{viewer} is now watching {stream.title}")
 
 @client.event()
 async def on_viewer_leave(stream: vibes.Stream, viewer: vibes.User):
-    print(f"{viewer} is no longer watching {stream.title}")
+    logging.debug(f"{viewer} is no longer watching {stream.title}")
 
 @client.event()
 async def on_new_follower(user: vibes.User, viewer: vibes.User):
-    print(f"{viewer} just followed {user}")
+    logging.debug(f"{viewer} just followed {user}")
 
 @client.event()
 async def on_stream_like(stream: vibes.Stream, viewer: vibes.User):
-    print(f"{viewer} just liked {stream.title}")
+    logging.debug(f"{viewer} just liked {stream.title}")
 
 @client.event()
 async def on_command_error(e: CommandError):
@@ -198,13 +197,13 @@ async def on_command_error(e: CommandError):
         elif isinstance(e, OnCooldown):
             await ctx.message.reply(f"You can only do this {e.cooldown.max_uses} times per {e.cooldown.period}s. {round(e.available_after, 2)}s left.")
         else:
-            print("".join(traceback.format_exception(type(e), e, e.__traceback__)))
+            logging.error("".join(traceback.format_exception(type(e), e, e.__traceback__)))
     else:
-        print("".join(traceback.format_exception(type(e), e, e.__traceback__)))
+        logging.error("".join(traceback.format_exception(type(e), e, e.__traceback__)))
 
 @client.event()
 async def on_donation(donation: vibes.Donation):
-    print(f"""{donation.user} donated {donation.amount} {donation.currency} to {donation.streamer}!
+    logging.debug(f"""{donation.user} donated {donation.amount} {donation.currency} to {donation.streamer}!
     "{donation.message}"
     The donation is equivalent to ${donation.amount_usd} 
     """)
@@ -214,11 +213,11 @@ async def on_message(message: vibes.Message):
     if message.content.startswith(client.prefix):
         await client.process_commands(message)
 
-    print(f"""[{message.stream.title}] {message.author}: "{message.content}" """)
+    logging.debug(f"""[{message.stream.title}] {message.author}: "{message.content}" """)
 
 @client.event()
 async def on_message_delete(message: vibes.Message): 
-    print(f"""A message by {message.author} has been deleted!""")
+    logging.debug(f"""A message by {message.author} has been deleted!""")
 
 
 
