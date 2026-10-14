@@ -71,6 +71,29 @@ if os.path.exists('.drek124'):
 else: # If not the repo contributor:
     if not os.path.exists('config.json') and os.path.exists('config-sample.json'):
         Path('config-sample.json').rename('config.json')
+    elif os.path.exists('config.json') and os.path.exists('config-sample.json'):
+        with open('config.json', 'r', encoding='utf-8') as f:
+            current: dict = json.load(f)
+
+        with open('config-sample.json', 'r', encoding='utf-8') as f:
+            orig: dict = json.load(f)
+
+
+        _current = current.copy()
+        # Incase of an update, add new configuration options
+        for key, value in orig.items():
+            if key not in current:
+                current[key] = value
+            elif isinstance(value, dict):
+                for k, v in value.items():
+                    if k not in current[key]:
+                        current[key][k] = v
+
+        if _current != current:
+            with open('config.json', 'w', encoding='utf-8') as f:
+                    json.dump(current, f, indent=4)
+
+
 
 from data import config
 
