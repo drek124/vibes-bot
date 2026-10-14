@@ -3,3 +3,4 @@
 .drek124
 __pycache__*
 *.log
+config.json

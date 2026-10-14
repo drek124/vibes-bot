@@ -70,6 +70,8 @@ async def main():
     # Loading extensions
     ext_folder = Path('extensions')
     for folder in [item for item in ext_folder.iterdir() if not item.is_file()] + [ext_folder]:
+        if folder.name in ['__pycache__']:
+            continue
         for file in [item for item in folder.iterdir() if item.is_file() and item.name.endswith('.py') and not item.name.startswith('_')]:
             await client.load_extension(f"{ext_folder.name}.{folder.name}.{file.name[:-3]}")
             logging.info(f"Extension {folder.name}.{file.name[:-3]} has been loaded")
