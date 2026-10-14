@@ -168,8 +168,9 @@ async def on_donation(donation: vibes.Donation):
 
 @client.event()
 async def on_message(message: vibes.Message):
-    if message.content.startswith('!'):
+    if message.content.startswith(client.prefix):
         await client.process_commands(message)
+        
     print(f"""[{message.stream.title}] {message.author}: "{message.content}" """)
 
 @client.event()
