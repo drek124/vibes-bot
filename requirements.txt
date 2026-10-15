@@ -1,3 +1,6 @@
 vibes-client
 dotenv
-cryptography
+# Utilizied by DB
+cryptography 
+# Utilizied by discord-notifier extension
+drekord
