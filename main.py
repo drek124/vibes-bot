@@ -86,7 +86,8 @@ else: # If not the repo contributor:
 
 
         _current = current.copy()
-        # Incase of an update, add new configuration options
+        
+        # In case of an update, add new configuration options
         for key, value in orig.items():
             if key not in current:
                 current[key] = value
