@@ -62,7 +62,13 @@ if os.path.exists('.drek124'):
         f.write('\n'.join(_to_add))
 
     with open('config.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
+        data: dict = json.load(f)
+
+    if '_default' in data:
+        for k, v in data.copy()['_default'].items():
+            data[k] = v
+        data.pop('_default')
+
 
     with open('config-sample.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)

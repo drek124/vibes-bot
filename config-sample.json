@@ -1,10 +1,10 @@
 {
     "command_prefix": "!",
-    "bot_page_url": "https://vibes.stream/apps/drek-api",
+    "bot_page_url": "https://vibes.stream/apps/YOUR_APP",
     "economy": {
         "currency": "d$"
     },
     "discord-notifier": {
-        "channel": 1384555578575032340
+        "channel": 1234567891011121314
     }
 }
