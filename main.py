@@ -6,6 +6,7 @@ import asyncio
 import traceback
 import sys
 import vibes
+import difflib
 from pathlib import Path
 from vibes import Client, commands
 from vibes.commands import (Context, CommandNotFound, BadArgument, MissingArguments, CommandError, NoPermission, OnCooldown, Cooldown)
@@ -189,7 +190,11 @@ async def on_command_error(e: CommandError):
         ctx: Context = e.context
 
         if isinstance(e, CommandNotFound):
-            await ctx.message.reply("Command not found!")
+            matches = difflib.get_close_matches(ctx.message.content.split(' ')[0][len(client.prefix):],
+                                                 [c.name for c in client.commands], n=3, cutoff=0.6)
+            if matches:
+                    
+                await ctx.message.reply(f"Did you mean: {", ".join(matches)}?")
 
         elif isinstance(e, BadArgument):
             await ctx.message.reply(f"Invalid argument, in \"{e.parameter.name}\"")
@@ -198,7 +203,7 @@ async def on_command_error(e: CommandError):
             await ctx.message.reply("Missing required argument(s)")
 
         elif isinstance(e, NoPermission):
-            await ctx.message.reply(f"No permission! You must have {ctx.command.required_role.name.capitalize()} role.")
+            await ctx.message.reply(f"No permission! You need {ctx.command.required_role.name} role.")
 
         elif isinstance(e, OnCooldown):
             await ctx.message.reply(f"You can only do this {e.cooldown.max_uses} times per {e.cooldown.period}s. {round(e.available_after, 2)}s left.")
