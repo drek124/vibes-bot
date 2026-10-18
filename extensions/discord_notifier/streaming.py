@@ -35,7 +35,7 @@ class notifier_streaming(Extension):
                 Separator(),
                 TextDisplay(f"[{stream.channel}]({stream.channel.url}) just started streaming **{stream.title}** in the **{stream.category.name}** category!"),
                 ActionRow(Button(label="Tune in!", url=stream.url)),
-                TextDisplay(f"-# Want these notifications for your channel? [Add me]({self.client.user.url}/add)!")
+                TextDisplay(f"-# Want these notifications for your channel? [Add me]({config.get('bot_page_url')}/add)!")
             ]:
                 container.add_item(i)
 
