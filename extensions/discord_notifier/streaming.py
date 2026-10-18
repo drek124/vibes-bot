@@ -1,11 +1,15 @@
 import vibes
 import drekord
+import datetime
 from vibes import commands
 from vibes.commands import Context
 from vibes.ext import event_listener, Extension
 from data import drekbase, helper, config
 
 from drekord.ui import *
+
+COOLDOWN = 420
+STREAMERS: dict[str, datetime.datetime] = {}
 
 class notifier_streaming(Extension):
 
@@ -14,6 +18,13 @@ class notifier_streaming(Extension):
 
     @event_listener()
     async def on_stream_online(self, stream: vibes.Stream):
+        now = datetime.datetime.now()
+        if (
+            now - STREAMERS.get(stream.channel.id, datetime.datetime.fromtimestamp(0)) 
+        ).total_seconds() < COOLDOWN:
+            # Return to prevent spam from instantly restarting a stream 
+            return
+        
         async with drekord.Client(helper.getenv('DISCORD_BOT_TOKEN')) as c:
             channel = await c.fetch_channel(config.get("discord-notifier/channel"))
             view = LayoutView()
@@ -30,7 +41,8 @@ class notifier_streaming(Extension):
             ]:
                 container.add_item(i)
 
-            await channel.send(view=view)
+            msg = await channel.send(view=view)
+        STREAMERS[stream.channel.id] = now
   
 
 async def setup(client):
