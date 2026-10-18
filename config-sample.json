@@ -4,7 +4,24 @@
     "economy": {
         "currency": "d$"
     },
+    "leveling": {
+        "xp_min": 15,
+        "xp_max": 25,
+        "cooldown": 60,
+        "xp_per_level": 100,
+        "xp_growth": 50,
+        "xp_growth_squared": 5,
+        "leaderboard_size": 5,
+        "announce": true,
+        "levelup_messages": [
+            "🎉 {user} reached level {level}!",
+            "⬆ {user} leveled up to level {level}!",
+            "🔥 {user} is now level {level}. Touch grass maybe?",
+            "🏆 GG {user}, level {level} unlocked!"
+        ]
+    },
     "discord-notifier": {
-        "channel": 1234567891011121314
+        "channel": 1234567891011121314,
+        "new_stream_cooldown": 420
     }
 }

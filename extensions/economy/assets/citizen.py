@@ -54,10 +54,6 @@ MIGRATIONS = [
 ]
 
 
-async def create_tables():
-    await drekbase.migrate(MIGRATIONS)
-
-
 class Citizen:
     """A user in the economy.
 

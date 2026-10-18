@@ -8,7 +8,6 @@ from data import drekbase, helper, config
 
 from drekord.ui import *
 
-COOLDOWN = 420
 STREAMERS: dict[str, datetime.datetime] = {}
 
 class notifier_streaming(Extension):
@@ -21,7 +20,7 @@ class notifier_streaming(Extension):
         now = datetime.datetime.now()
         if (
             now - STREAMERS.get(stream.channel.id, datetime.datetime.fromtimestamp(0)) 
-        ).total_seconds() < COOLDOWN:
+        ).total_seconds() < config.get('discord-notifier/new_stream_cooldown', 420):
             # Return to prevent spam from instantly restarting a stream 
             return
         
@@ -35,9 +34,8 @@ class notifier_streaming(Extension):
                 Section(TextDisplay(f"# {stream.channel} is LIVE!"), accessory=Thumbnail(stream.channel.avatar_url)),
                 Separator(),
                 TextDisplay(f"[{stream.channel}]({stream.channel.url}) just started streaming **{stream.title}** in the **{stream.category.name}** category!"),
-                # MediaGallery(MediaGalleryItem(stream.thumbnail_url)),
                 ActionRow(Button(label="Tune in!", url=stream.url)),
-                TextDisplay(f"-# Want these notifications for your channel? [Add me]({config.get('bot_page_url')}/add)!")
+                TextDisplay(f"-# Want these notifications for your channel? [Add me]({self.client.user.url}/add)!")
             ]:
                 container.add_item(i)
 

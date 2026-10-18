@@ -5,7 +5,7 @@ from vibes import commands
 from vibes.commands import Context, Cooldown
 from vibes.ext import event_listener, Extension
 from data import drekbase
-from extensions.economy.assets import Citizen, InsufficientFunds, money, round_money, create_tables
+from extensions.economy.assets import Citizen, InsufficientFunds, money, round_money, MIGRATIONS
 
 
 
@@ -163,5 +163,5 @@ class economy_simple(Extension):
 
 
 async def setup(client):
-    await create_tables()
+    await drekbase.migrate(MIGRATIONS)
     await client.add_ext(economy_simple(client))
