@@ -1,6 +1,5 @@
 {
     "command_prefix": "!",
-    "bot_page_url": "https://vibes.stream/apps/YOUR_APP",
     "economy": {
         "currency": "d$"
     },

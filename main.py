@@ -65,14 +65,20 @@ if os.path.exists('.drek124'):
     with open('config.json', 'r', encoding='utf-8') as f:
         data: dict = json.load(f)
 
+    def apply_defaults(target: dict, defaults: dict):
+        # Only overwrite the keys present in _default, at any depth, keep the rest as-is
+        for k, v in defaults.items():
+            if isinstance(v, dict) and isinstance(target.get(k), dict):
+                apply_defaults(target[k], v)
+            else:
+                target[k] = v
+
     if '_default' in data:
-        for k, v in data.copy()['_default'].items():
-            data[k] = v
-        data.pop('_default')
+        apply_defaults(data, data.pop('_default'))
 
 
     with open('config-sample.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
 else: # If not the repo contributor:
     if not os.path.exists('config.json') and os.path.exists('config-sample.json'):
@@ -98,7 +104,7 @@ else: # If not the repo contributor:
 
         if _current != current:
             with open('config.json', 'w', encoding='utf-8') as f:
-                    json.dump(current, f, indent=4)
+                    json.dump(current, f, indent=4, ensure_ascii=False)
 
 
 
