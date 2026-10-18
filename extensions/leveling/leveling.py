@@ -15,7 +15,7 @@ class leveling(Extension):
     @event_listener()
     async def on_message(self, message: vibes.Message):
         author = message.author
-        if message.system or author is None or author.guest or author.bot or author == self.client.user:
+        if message.system or author is None or author.guest or author.bot:
             return
         if message.content.startswith(self.client.prefix):
             return
