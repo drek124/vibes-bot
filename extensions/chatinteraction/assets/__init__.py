@@ -3,6 +3,7 @@ Create live callbacks to chat messages
 """
 import datetime
 import vibes
+from vibes.commands import Context
 
 MISSING = object()
 
@@ -15,22 +16,25 @@ class InteractionEvent:
 
 class ChatInteraction:
     def __init__(
-            self, viewer: vibes.Viewer, *,
+            self, ctx: Context, *,
             auto_stop: bool = True,
             timeout: float = None,
             callback = MISSING
             ):
         """Chat interaction handler
         ## Parameters
-        - viewer: The stream viewer that triggers the interaction
+        - ctx: The command context that starts the interaction; its author is the viewer that
+            triggers it, and its message (and anything sent before it) is ignored
         - auto_stop: Stops the interaction after the first response. If `False`, it keeps
             responding to every message until `stop()` is called or it times out.
         - timeout: Time in seconds until the interaction expires & stops responding
         - callback: The `async def callback(InteractionEvent)` function for the interaction
         """
+        viewer = ctx.author
         if viewer.viewer_id is None:
             raise ValueError("Chat interactions can't be created for guest viewers")
 
+        self.ctx: Context = ctx
         self.viewer: vibes.Viewer = viewer
         self.key: str = viewer.viewer_id
         self.auto_stop: bool = auto_stop
@@ -79,6 +83,11 @@ class ChatInteraction:
             return
         if self.expired:
             self.stop()
+            return
+
+        # Ignore the message that started the interaction & anything that arrives late but was sent before it
+        trigger = self.ctx.message
+        if message.id == trigger.id or message.created_at <= trigger.created_at:
             return
 
         # Stop before awaiting so a second message can't trigger it while the callback runs

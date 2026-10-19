@@ -14,6 +14,10 @@ class chatinteraction(Extension):
         author = message.author
         if message.system or author is None or author.guest:
             return
+        # Commands are never answers to an interaction
+        prefixes = ('/',) + ((self.client.prefix,) if self.client.prefix else ())
+        if message.content and message.content.startswith(prefixes):
+            return
 
         # Copy the list since interactions remove themselves while running
         listeners = list(interactions.get(author.viewer_id, []))

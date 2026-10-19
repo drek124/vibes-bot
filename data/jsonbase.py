@@ -9,7 +9,7 @@ def fetchvalue(key, file: str, raise_keyerror: bool = False):
     - None is key doesn't exist.
     - If raise_keyerror is True, KeyError will be raised if key doesn't exist
     """
-    with open(f'{file}', 'r') as f:
+    with open(f'{file}', 'r', encoding='utf-8') as f:
         data: dict = json.load(f)
     try: return data[key]
     except KeyError: 
@@ -20,7 +20,7 @@ def fetchvalue(key, file: str, raise_keyerror: bool = False):
 def popjson(key, file: str) -> dict:
     """Pop a key in a JSON file. Returns the new dict."""
     try:
-        with open(f'{file}', 'r') as f:
+        with open(f'{file}', 'r', encoding='utf-8') as f:
             data: dict = json.load(f)
         data.pop(key)
     except KeyError: pass
@@ -28,7 +28,7 @@ def popjson(key, file: str) -> dict:
 
 def appendjson(key, value, file: str) -> dict:
     """Edit/Insert a key into a JSON file. Returns the new dict."""
-    with open(f'{file}', 'r') as f:
+    with open(f'{file}', 'r', encoding='utf-8') as f:
         data: dict = json.load(f)
     if str(key) in data:
         data.pop(str(key))
@@ -38,7 +38,7 @@ def appendjson(key, value, file: str) -> dict:
 
 def readjson(file: str, convert_to_int: bool = False) -> dict:
     "Read JSON File"
-    with open(f'{file}', 'r') as f:
+    with open(f'{file}', 'r', encoding='utf-8') as f:
         data = json.load(f)
     if convert_to_int is True:
         d = {}
@@ -54,8 +54,8 @@ def readjson(file: str, convert_to_int: bool = False) -> dict:
 
 def writejson(data: dict, file: str, *, indent: int = None) -> dict:
     "Write into JSON file"
-    with open(f'{file}', 'w') as f:
+    with open(f'{file}', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=indent)
-    with open(f'{file}', 'r') as f:
+    with open(f'{file}', 'r', encoding='utf-8') as f:
         return json.load(f)
 

@@ -83,15 +83,15 @@ class economy_flag(Extension):
             await citizen.add_cash(profit)
             await msg.reply(f"✅ You got {money(profit)} for guessing {country}")
 
-        interaction = ChatInteraction(ctx.author, timeout=countdown, callback=callback)
-        response = await ctx.message.reply(f"[{countdown}s] Discover the country's name for: {emoji}")
+        interaction = ChatInteraction(ctx, timeout=countdown, callback=callback)
+        await ctx.message.reply(f"[{countdown}s] Discover the country's name: {emoji}")
         await asyncio.sleep(countdown)
         if called: 
             return
         
         interaction.stop()
         loss = await _lose(citizen, profit)
-        await response.reply(f'⚠ Ran out of time. Lost {money(loss)}')
+        await ctx.message.reply(f'⚠ Ran out of time. Lost {money(loss)}; country: {country}')
 
 
 
