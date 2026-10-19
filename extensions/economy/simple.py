@@ -24,7 +24,7 @@ class economy_simple(Extension):
         msg = random.choice([
             f"You worked as a drek officer and you earned {money(profit)}",
             f"You did some of your chores and earned {money(profit)}. Good boy!",
-            f"You were hired as **{self.client.user}** official tester and as signing bonus you earned {money(profit)}",
+            f"You were hired as {self.client.user} official tester and as signing bonus you earned {money(profit)}",
             f"You did some chores around the house and mommy gave you {money(profit)}",
             f"You sold OnlyDrek leaks and earned {money(profit)}",
             f"You washed the dishes. That's it. Oh by the way you earned {money(profit)}",
@@ -36,13 +36,13 @@ class economy_simple(Extension):
             f"You as work a drek deputy and gain {money(profit)}.",
             f"You linked your VALORANT account to drek utilities and gained {money(profit)}!",
             f"Your unempl*yment cheque earned you {money(profit)}.",
-            f"**#ad** You subscribed to VIBES Premium and enjoyed streaming like a pro. You made {money(profit)} from donations!",
-            f"**#ad** You equipped the VIBES tag and earned {money(profit)} 🔥",
+            f"#ad You subscribed to VIBES Premium and enjoyed streaming like a pro. You made {money(profit)} from donations!",
+            f"#ad You equipped the VIBES tag and earned {money(profit)} 🔥",
             f"You donated your heart for a transplant and gained {money(profit)}!",
             f"You traveled to Bahrain. free {money(profit)}.",
             f"21ketchup used your sub-botting service for {money(profit)}!",
             f"You subscribed to Hustler's University's affiliate system and gained {money(profit)}!",
-            f"You went to America and won the lottery of **1,000,000**d$! After the IRS robbed you, you're left with {money(profit)} rip bozo",
+            f"You went to America and won the lottery of 1,000,000d$! After the IRS robbed you, you're left with {money(profit)} rip bozo",
             f"You became black. Free {money(profit)}", 
             f"You sold N-Word passes for {money(profit)}.",
             f"You became drek's E-Kitten & gained {money(profit)}.",
@@ -97,7 +97,7 @@ class economy_simple(Extension):
             await citizen.remove_cash(loss)
             response = '⚠ ' + random.choice([
             f"Before you could hit the trigger, a drek officer tackled you which caused you to lose {money(loss)}",
-            f"You were stopped by drek security while attempting to hack **drek utilities** to grant yourself more coins! You were fined {money(loss)}",
+            f"You were stopped by drek security while attempting to hack drek utilities to grant yourself more coins! You were fined {money(loss)}",
             f"You attempted to avoid getting blacklisted from drek lounge! But you failed and lost {money(loss)}",
             f"You tried to abuse drek modmail! As a punishment, you were fined {money(loss)}",
             f"You tried to post NSFW media in VIBES, but you failed and got fined {money(loss)}.",
@@ -110,7 +110,7 @@ class economy_simple(Extension):
         await citizen.add_cash(profit)
         response = '👍 ' + random.choice([
             f"You robbed drek bank for {money(profit)}!",
-            f"You hacked **drek security** and granted yourself {money(profit)}",
+            f"You hacked drek security and granted yourself {money(profit)}",
             f"You hijacked a plane and hit the twin towers for {money(profit)}",
             f"You robbed a homeless person for {money(profit)}. tf?",
             f"You hacked an OnlyDrek account and stole {money(profit)}",
