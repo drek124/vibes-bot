@@ -20,6 +20,11 @@
             "🏆 GG {user}, level {level} unlocked!"
         ]
     },
+    "community": {
+        "word_tracker": {
+            "max_word_length": 50
+        }
+    },
     "discord-notifier": {
         "channel": 1234567891011121314,
         "new_stream_cooldown": 420

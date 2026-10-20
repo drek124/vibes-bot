@@ -1,12 +1,18 @@
 import re
+import logging
 import vibes
 from vibes import commands
 from vibes.commands import Context
 from vibes.ext import event_listener, Extension
-from data import drekbase
+from data import drekbase, config
 
 
-MAX_WORD_LENGTH = 50
+# The word_counters.word column is VARCHAR(50), so longer words can't be stored
+DB_MAX_WORD_LENGTH = 50
+MAX_WORD_LENGTH = config.get('community/word_tracker/max_word_length', DB_MAX_WORD_LENGTH)
+if MAX_WORD_LENGTH > DB_MAX_WORD_LENGTH:
+    logging.warning(f"community/word_tracker/max_word_length ({MAX_WORD_LENGTH}) is higher than {DB_MAX_WORD_LENGTH}, using {DB_MAX_WORD_LENGTH}")
+    MAX_WORD_LENGTH = DB_MAX_WORD_LENGTH
 
 
 class community_word_counter(Extension):
