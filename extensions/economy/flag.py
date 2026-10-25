@@ -83,7 +83,7 @@ class economy_flag(Extension):
             await msg.reply(f"✅ You got {money(profit)} for guessing {country}")
 
         interaction = ChatInteraction(ctx, timeout=countdown, callback=callback)
-        await ctx.message.reply(f"[{countdown}s] Discover the country's name: {emoji}")
+        await ctx.message.reply(emoji)
         await asyncio.sleep(countdown)
         if called: 
             return
