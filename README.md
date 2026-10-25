@@ -13,11 +13,12 @@ On first run, `config-sample.json` becomes your `config.json`. When you update t
 ## Extensions
 | Extension | What it does | Commands |
 |---|---|---|
-| `economy` | Cash & bank balances across the platform | `/work` `/crime` `/guesser` `/bal` `/dep` `/with` |
+| `economy` | Cash & bank balances across the platform, plus a flag guessing game | `/work` `/crime` `/guesser` `/flag` `/bal` `/dep` `/with` |
 | `leveling` | XP for chatting, levels & a global leaderboard | `/rank` `/top` |
-| `community` | Lets streamers link their Discord server | `/discord` `!discord` |
+| `community` | Lets streamers link their Discord server, and mods count how often words are said in chat | `/discord` `!discord` `/track` `/untrack` |
 | `discord_notifier` | Posts to a Discord channel when a stream goes live | |
+| `chatinteraction` | Lets commands wait for a user's next chat message as their answer | |
 
-Don't want one? Delete its folder from `extensions/`. Each extension's settings live under its own section in `config.json`.
+Don't want one? Delete its folder from `extensions/`. Each extension's settings live under its own section in `config.json`. `/flag` needs `chatinteraction` to read guesses, so keep it if you use `economy`.
 
 Official VIBES Discord: https://discord.gg/auygjA53tM
