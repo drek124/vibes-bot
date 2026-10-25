@@ -14,7 +14,6 @@ from extensions.chatinteraction.assets import *
 
 _data: dict = jsonbase.readjson('extensions/economy/assets/flags.json')
 COUNTRIES: dict[str, str] = _data['countries']
-EMOJIS: dict[str, str] = _data['emojis']
 
 
 
@@ -68,7 +67,7 @@ class economy_flag(Extension):
         countdown = random.randint(5, 15)
 
         key, country = random.choice(list(COUNTRIES.items()))
-        emoji = EMOJIS[key]
+        emoji = f':flag_{key.lower()}:'
         called = False
         async def callback(event: InteractionEvent):
             nonlocal called
